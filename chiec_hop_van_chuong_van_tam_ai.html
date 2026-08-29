@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chiếc Hộp Văn Chương</title>
+<style>
+:root{--rose:#a8334d;--rose2:#d96f86;--pink:#f9e1e7;--cream:#fffaf7;--ink:#3f2a31;--gold:#c49a57}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px;font-family:"Segoe UI",Arial,sans-serif;color:var(--ink);background:radial-gradient(circle at 20% 20%,#ffe7ee,transparent 26%),radial-gradient(circle at 80% 80%,#f5dcc6,transparent 24%),linear-gradient(135deg,#fffdfb,#fff2f5)}
+.wrap{width:min(940px,96vw);background:rgba(255,255,255,.9);border:1px solid #efd9df;box-shadow:0 24px 60px rgba(116,52,70,.16);border-radius:30px;padding:34px 26px 38px;text-align:center}
+.badge{display:inline-block;padding:7px 12px;border-radius:999px;background:#fff0f4;color:var(--rose);font-weight:700;font-size:12px;letter-spacing:.12em}
+h1{font-family:Georgia,serif;font-size:clamp(36px,6vw,62px);line-height:1.1;color:var(--rose);margin:14px 0 8px}
+.subtitle{max-width:700px;margin:0 auto 18px;color:#6f5960;font-size:17px}
+.stage{min-height:320px;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:10px}
+.gift{position:relative;width:180px;height:150px;margin:15px auto 18px;cursor:pointer;filter:drop-shadow(0 15px 18px rgba(110,42,61,.18));transition:.25s transform}
+.gift:hover{transform:translateY(-5px) scale(1.03)}
+.box{position:absolute;left:15px;right:15px;bottom:0;height:105px;background:linear-gradient(135deg,var(--rose2),var(--rose));border-radius:12px}
+.lid{position:absolute;left:0;right:0;top:20px;height:42px;background:linear-gradient(135deg,#e27d92,#b83c59);border-radius:12px;transform-origin:20% 100%;transition:.7s}
+.ribbon-v{position:absolute;left:78px;top:20px;width:24px;height:130px;background:linear-gradient(#f6d591,#c59a57);z-index:3}
+.ribbon-h{position:absolute;left:0;right:0;top:52px;height:22px;background:linear-gradient(90deg,#f6d591,#c59a57);z-index:3}
+.bow{position:absolute;top:-2px;left:58px;width:62px;height:38px;z-index:5}
+.bow:before,.bow:after{content:"";position:absolute;top:6px;width:34px;height:26px;border:7px solid #c59a57;border-radius:50% 50% 50% 8px;background:#f7ddb0}
+.bow:before{left:0;transform:rotate(18deg)}.bow:after{right:0;transform:scaleX(-1) rotate(18deg)}
+.gift.open .lid{transform:translate(-20px,-65px) rotate(-19deg)}
+.btn{border:0;border-radius:14px;padding:13px 20px;background:var(--rose);color:#fff;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 10px 20px rgba(168,51,77,.18)}
+.btn.alt{margin-left:8px;background:#fff;color:var(--rose);border:1px solid #dfb6c1;box-shadow:none}
+.result{display:none;margin:16px auto 0;max-width:760px;background:linear-gradient(135deg,#fff,#fff3f6);border:1px solid #ecd7de;border-radius:24px;padding:26px 22px;text-align:left}
+.result.show{display:block}.result h2{margin:0 0 10px;font-family:Georgia,serif;color:var(--rose);font-size:26px}
+.task{font-size:20px;font-weight:700;line-height:1.55}
+.tip{margin-top:14px;padding:12px 14px;background:#fff8ef;border-left:4px solid var(--gold);border-radius:10px;color:#735e3e;font-size:14px}
+.note{font-size:13px;color:#89727a;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<span class="badge">VĂN TÂM AI · TRÒ CHƠI</span>
+<h1>🎁 Chiếc Hộp Văn Chương</h1>
+<p class="subtitle">Mỗi lần mở hộp, bạn sẽ nhận một thử thách khác nhau để quan sát, liên tưởng, cảm nhận hoặc sáng tạo cùng văn học.</p>
+<div class="stage">
+<div id="gift" class="gift" onclick="openBox()"><div class="box"></div><div class="lid"></div><div class="ribbon-v"></div><div class="ribbon-h"></div><div class="bow"></div></div>
+<div><button class="btn" onclick="openBox()">MỞ CHIẾC HỘP</button><button class="btn alt" onclick="resetBox()">ĐÓNG LẠI</button></div>
+<div id="result" class="result"><h2>✨ Thử thách của bạn</h2><div id="task" class="task"></div><div id="tip" class="tip"></div><div style="margin-top:18px;text-align:center"><button class="btn" onclick="anotherTask()">🎲 THỬ THÁCH KHÁC</button></div></div>
+</div>
+<div class="note">Gợi ý: nhúng trò chơi vào khu “Trải nghiệm” hoặc “Trò chơi văn học” trên Google Sites.</div>
+</div>
+<script>
+const tasks=[
+["Chọn một nhân vật văn học và miêu tả nhân vật ấy bằng đúng 3 từ.","Mỗi từ nên gắn với một chi tiết cụ thể trong tác phẩm."],
+["Tìm một câu thơ hoặc câu văn khiến bạn liên tưởng đến một màu sắc.","Giải thích vì sao bạn chọn màu đó."],
+["Nếu được gặp Thúy Kiều trong 1 phút, bạn muốn nói điều gì với nàng?","Viết ngắn gọn trong khoảng 30–50 chữ."],
+["Nếu “Tây Tiến” là một bản nhạc, bạn nghĩ bản nhạc ấy sẽ có tiết tấu như thế nào?","Có thể liên tưởng đến nhịp nhanh, chậm, dữ dội hoặc tha thiết."],
+["Chọn một hình ảnh trong tác phẩm và biến nó thành ý tưởng cho một bức tranh.","Mô tả bố cục, màu sắc và điểm nhấn chính."],
+["Đặt một câu hỏi thật hay cho AI về một tác phẩm văn học mà bạn đang học.","Sau đó kiểm tra câu trả lời của AI bằng văn bản gốc."],
+["Tìm một chi tiết nhỏ nhưng làm thay đổi cách bạn nhìn về một nhân vật.","Nêu chi tiết và giải thích tác động của nó."],
+["Viết 2 câu gửi cho một nhân vật mà bạn muốn an ủi.","Cố gắng viết chân thành, không sáo rỗng."],
+["Nếu được đổi tên một tác phẩm, bạn sẽ đặt tên mới là gì?","Tên mới cần phản ánh đúng tinh thần hoặc chủ đề tác phẩm."],
+["Chọn một câu thơ bạn thích và biến nó thành một tiêu đề poster.","Tiêu đề nên ngắn, gợi hình và giàu cảm xúc."],
+["Nếu một nhân vật có trang nhật kí riêng, hôm nay họ sẽ viết gì?","Viết 3–4 câu ở ngôi thứ nhất."],
+["Chọn một tác phẩm và mô tả nó bằng 3 biểu tượng emoji.","Sau đó giải thích ý nghĩa của từng biểu tượng."],
+["Tìm một hình ảnh thiên nhiên trong tác phẩm và cho biết nó gợi tâm trạng gì.","Liên hệ giữa cảnh vật và cảm xúc con người."],
+["Nếu được hỏi tác giả một câu duy nhất, bạn sẽ hỏi gì?","Ưu tiên câu hỏi mở, không chỉ hỏi thông tin có sẵn."],
+["Chọn một nhân vật bạn không đồng tình và nêu một lí do.","Dùng dẫn chứng hoặc hành động của nhân vật để bảo vệ ý kiến."],
+["Biến một chi tiết văn học thành ý tưởng cho một video 30 giây.","Nêu cảnh mở đầu, hình ảnh chính và câu kết."],
+["Chọn một tác phẩm và tìm một từ khóa thể hiện rõ nhất tinh thần của nó.","Giải thích bằng 1–2 câu."],
+["Nếu được bước vào một tác phẩm trong 24 giờ, bạn sẽ chọn tác phẩm nào?","Nêu nơi bạn muốn đến và điều bạn muốn trải nghiệm."],
+["Tạo một câu khẩu hiệu ngắn cho một tác phẩm văn học.","Khẩu hiệu nên dưới 12 từ."],
+["AI đưa ra một nhận định về nhân vật. Bạn hãy tìm 2 bằng chứng để đồng ý hoặc phản bác.","Đừng chỉ dựa vào cảm giác; hãy quay lại văn bản."]
+];
+function render(){const x=tasks[Math.floor(Math.random()*tasks.length)];document.getElementById("task").textContent=x[0];document.getElementById("tip").textContent="💡 Gợi ý: "+x[1];document.getElementById("result").classList.add("show")}
+function openBox(){document.getElementById("gift").classList.add("open");setTimeout(render,350)}
+function anotherTask(){render()}
+function resetBox(){document.getElementById("gift").classList.remove("open");document.getElementById("result").classList.remove("show")}
+</script>
+</body>
+</html>
